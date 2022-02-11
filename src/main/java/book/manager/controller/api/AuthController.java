@@ -1,4 +1,4 @@
-package book.manager.controller;
+package book.manager.controller.api;
 
 import book.manager.service.AuthService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 
+
+// 用户注册
 @Controller
 @RequestMapping("/api/auth")
 public class AuthController {

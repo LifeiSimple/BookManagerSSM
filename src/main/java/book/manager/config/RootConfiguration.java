@@ -44,6 +44,7 @@ public class RootConfiguration {
         return sqlSessionFactoryBean;
     }
 
+    // 开启 Spring 事务
     @Bean
     public TransactionManager transactionManager(@Autowired DataSource dataSource){
         return new DataSourceTransactionManager(dataSource);

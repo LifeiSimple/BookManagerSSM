@@ -19,7 +19,7 @@ public class UserAuthService implements UserDetailsService {
 
     @Override                             // 参数 s 为用户名称
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        AuthUser authUser = mapper.getPasswordByUsername(s);  //从数据库根据用户名获取密码
+        AuthUser authUser = mapper.getPasswordByUsername(s);  //根据用户名从数据库获取密码
         if (authUser == null)
             throw new UsernameNotFoundException("登录失败，用户名或密码错误！");
 
