@@ -12,18 +12,24 @@ public class PageController {
 
     @RequestMapping("/index")
     public String index(){
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-        System.out.println(user.getAuthorities());
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        Authentication authentication = context.getAuthentication();
+//        User user = (User) authentication.getPrincipal();
+//        System.out.println(user.getUsername());
+//        System.out.println(user.getPassword());
+//        System.out.println(user.getAuthorities());
         return "index";
     }
 
     @RequestMapping("/login")
     public String login(){
         return "login";
+    }
+
+    @RequestMapping("/register")
+    public String register() {
+
+        return "register";
     }
 
 }

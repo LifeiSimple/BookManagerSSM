@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -47,6 +48,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public SpringTemplateEngine springTemplateEngine(@Autowired ITemplateResolver resolver){
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(resolver); //模板解析器，默认即可
+        engine.addDialect(new SpringSecurityDialect());   //添加针对于SpringSecurity的方言
         return engine;
     }
 

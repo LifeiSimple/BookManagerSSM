@@ -1,6 +1,6 @@
 package book.manager.config;
 
-import book.manager.service.UserAuthService;
+import book.manager.service.impl.UserAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -41,28 +40,36 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()    //首先需要配置哪些请求会被拦截，哪些请求必须具有什么角色才能访问
-                .antMatchers("/static/**").permitAll()  //静态资源，使用permitAll来运行任何人访问（注意一定要放在前面）
-                .antMatchers("/**").hasRole("user")     //所有请求必须登陆并且是user角色才可以访问（不包含上面的静态资源）
-                .and()
+            .authorizeRequests()    //首先需要配置哪些请求会被拦截，哪些请求必须具有什么角色才能访问
+                .antMatchers("/static/**","/login", "/register", "/api/auth/**")
+                    .permitAll()  //静态资源，使用permitAll来运行任何人访问（注意一定要放在前面）
+//                .antMatchers("/**")
+                .anyRequest()
+                    .hasRole("user")     //所有请求必须登陆并且是user角色才可以访问（不包含上面的静态资源）
+
+
+            .and()
                 .formLogin()     //配置Form表单登陆
                 .loginPage("/login")    //登陆页面地址（GET）
-                .loginProcessingUrl("/doLogin") //form表单提交地址（POST）
-                .defaultSuccessUrl("/index")
-                .permitAll()    //登陆页面也需要允许所有人访问
-                .and()
+                .loginProcessingUrl("/api/auth/login") //form表单提交地址（POST）
+                .defaultSuccessUrl("/index", true)
+//                .permitAll()    //登陆页面也需要允许所有人访问
+
+            .and()
                 .logout()
-                .logoutUrl("/logout")    //退出登陆的请求地址
+                .logoutUrl("/api/auth/logout")    //退出登陆的请求地址
                 .logoutSuccessUrl("/login")    //退出后重定向的地址
-                .and()
-                .csrf().disable()
+
+            .and()
+                .csrf()
+                    .disable()
                 .rememberMe()   //开启记住我功能
                 .rememberMeParameter("remember")  //登陆请求表单中需要携带的参数，如果携带，那么本次登陆会被记住
                 .tokenValiditySeconds(60 * 60 * 60 * 7)
                 .tokenRepository(repository);
-               /* .tokenRepository(new InMemoryTokenRepositoryImpl());  //这里使用的是直接在内存中保存的TokenRepository实现
-                //TokenRepository有很多种实现，InMemoryTokenRepositoryImpl直接基于Map实现的，缺点就是占内存、服务器重启后记住我功能将失效
-                //后面我们还会讲解如何使用数据库来持久化保存Token信息 */
+           /* .tokenRepository(new InMemoryTokenRepositoryImpl());  //这里使用的是直接在内存中保存的TokenRepository实现
+            //TokenRepository有很多种实现，InMemoryTokenRepositoryImpl直接基于Map实现的，缺点就是占内存、服务器重启后记住我功能将失效
+            //后面我们还会讲解如何使用数据库来持久化保存Token信息 */
 
     }
 

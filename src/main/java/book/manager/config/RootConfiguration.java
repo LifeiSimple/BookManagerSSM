@@ -8,10 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
+@EnableTransactionManagement
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScans({
         @ComponentScan("book.manager.service")
@@ -26,7 +30,7 @@ public class RootConfiguration {
     public DataSource dataSource() {
         // 更换数据源
         HikariDataSource dataSource = new HikariDataSource();
-        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/javaweb");
+        dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/bookmanagerssm");
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUsername("root");
         dataSource.setPassword("MySQL09054510WjX");
@@ -40,4 +44,8 @@ public class RootConfiguration {
         return sqlSessionFactoryBean;
     }
 
+    @Bean
+    public TransactionManager transactionManager(@Autowired DataSource dataSource){
+        return new DataSourceTransactionManager(dataSource);
+    }
 }
