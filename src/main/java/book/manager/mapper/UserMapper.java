@@ -19,4 +19,6 @@ public interface UserMapper {
     @Select("select sid from student where name = #{username}")
     int getSidByUserName(String username);
 
+    @Select("select COUNT(*) from student")
+    int getAllStudent();
 }
