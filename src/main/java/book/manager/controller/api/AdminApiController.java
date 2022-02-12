@@ -23,4 +23,13 @@ public class AdminApiController {
         return "redirect:/page/admin/book";
     }
 
+    @RequestMapping(value = "/add-book", method = RequestMethod.POST)
+    public String addBook(@RequestParam("title") String title,
+                          @RequestParam("desc") String desc,
+                          @RequestParam("price") double price){
+        bookService.addBook(title, desc, price);
+
+        return "redirect:/page/admin/book";
+    }
+
 }

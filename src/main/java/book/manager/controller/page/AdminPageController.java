@@ -38,12 +38,18 @@ public class AdminPageController {
 
         model.addAttribute("booklist", bookService.getAllBook());
 
-
-
-
         return "admin/book";
     }
 
+    @RequestMapping("/add-book")
+    public String addBook(Model model){
+        AuthInfo authInfo = new AuthInfo();
+        // 向首页添加部分用户信息
+        model.addAttribute("username", authInfo.getUsername());
+        model.addAttribute("userrole", authInfo.getUserrole());
+
+        return "admin/add-book";
+    }
 
 
 

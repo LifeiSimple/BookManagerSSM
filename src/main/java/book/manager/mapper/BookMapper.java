@@ -2,10 +2,7 @@ package book.manager.mapper;
 
 
 import book.manager.entity.Book;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -17,4 +14,7 @@ public interface BookMapper {
 
     @Delete("delete from book where bid = #{bid}")
     void deleteBook(int bid);
+
+    @Insert("insert into book(title, `desc`, price) values(#{title}, #{desc}, #{price})")
+    void addBook(@Param("title") String title, @Param("desc") String desc, @Param("price") double price);
 }
