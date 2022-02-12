@@ -1,5 +1,6 @@
 package book.manager.controller.page;
 
+import book.manager.entity.AuthInfo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,15 +29,9 @@ public class AuthPageController {
     @RequestMapping("/index")
     public String index(Model model){
 
-        // 向首页添加部分用户信息
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        String username = user.getUsername();
-        String userroles = String.valueOf(user.getAuthorities());
-        String userrole = userroles.substring(1,userroles.length()-1);
+        AuthInfo authInfo = new AuthInfo();
 
-        if (userrole.equals("ROLE_user"))
+        if (authInfo.getUserrole().equals("ROLE_user"))
             return "redirect:/page/user/index";
         else return "redirect:/page/admin/index";
     }

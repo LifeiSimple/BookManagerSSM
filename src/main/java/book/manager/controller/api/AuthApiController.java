@@ -2,7 +2,6 @@ package book.manager.controller.api;
 
 import book.manager.service.AuthService;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +12,7 @@ import javax.annotation.Resource;
 // 用户注册
 @Controller
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthApiController {
 
     @Resource
     AuthService authService;
