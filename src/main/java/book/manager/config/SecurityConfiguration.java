@@ -51,9 +51,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .authorizeRequests()    //首先需要配置哪些请求会被拦截，哪些请求必须具有什么角色才能访问
+            .authorizeRequests()    //配置哪些请求会被拦截，哪些请求必须具有什么角色才能访问
                 .antMatchers("/static/**","/page/auth/**", "/api/auth/**")
-                    .permitAll()  //静态资源，使用permitAll来运行任何人访问（注意一定要放在前面）
+                    .permitAll()  //静态资源，使用permitAll来允许任何人访问
                 .antMatchers("page/user/**","api/user/**")
                     .hasRole("user")
                 .antMatchers("page/admin/**","api/admin/**")
@@ -106,7 +106,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(encoder) //密码加密器
                 .withUser("test")   //用户名
                 .password(encoder.encode("123456"))   //这里需要填写加密后的密码
-                .roles("user");   //用户的角色（之后讲解）
+                .roles("user");   //用户的角色
         */
 
         // 使用数据库中的密码
